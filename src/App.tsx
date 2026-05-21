@@ -50,7 +50,24 @@ const App: React.FC = () => {
   }, [searchParams, setSearchParams]);
 
   useEffect(() => {
-    fetchUsers(currentPage, pageSize);
+    // Check if there's a search query in the URL on initial load
+    if (urlSearch) {
+      // If there's a search query, perform the search
+      handleSearch();
+    } else {
+      // Otherwise, fetch users normally
+      fetchUsers(currentPage, pageSize);
+    }
+  }, []); // Empty dependency array means this runs only on mount
+
+  useEffect(() => {
+    // This effect handles pagination changes
+    // If there's a search query, we need to re-search when page changes
+    if (searchQuery.trim()) {
+      handleSearch();
+    } else {
+      fetchUsers(currentPage, pageSize);
+    }
   }, [currentPage, pageSize]);
 
   const fetchUsers = async (page: number, limit: number) => {
