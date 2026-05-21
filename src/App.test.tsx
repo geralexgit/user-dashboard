@@ -171,8 +171,9 @@ describe('App', () => {
     });
     
     await waitFor(() => {
-      expect(screen.getByText('John Doe')).toBeInTheDocument();
-      expect(screen.getByText('Jane Smith')).toBeInTheDocument();
+      // Use getAllByText since there are multiple elements with these names
+      expect(screen.getAllByText('John Doe').length).toBeGreaterThan(0);
+      expect(screen.getAllByText('Jane Smith').length).toBeGreaterThan(0);
     });
   });
 

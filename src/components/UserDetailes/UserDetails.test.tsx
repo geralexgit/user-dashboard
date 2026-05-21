@@ -103,7 +103,8 @@ describe('UserDetails', () => {
     expect(screen.getByText('@johndoe')).toBeInTheDocument();
     expect(screen.getByText('Personal Information')).toBeInTheDocument();
     expect(screen.getByText('Address')).toBeInTheDocument();
-    expect(screen.getByText('Company')).toBeInTheDocument();
+    // Use getAllByText since there are multiple "Company" elements
+    expect(screen.getAllByText('Company').length).toBeGreaterThan(0);
   });
 
   it('calls onClose when close button is clicked', () => {
@@ -118,14 +119,14 @@ describe('UserDetails', () => {
   });
 
   it('calls onClose when overlay is clicked', () => {
-    render(
+    const { container } = render(
       <UserDetails user={mockUser} visible={true} onClose={mockOnClose} />
     );
     
-    // The overlay doesn't have a role="dialog", so we need to find it differently
-    // Look for the modal overlay div
-    const overlay = document.querySelector('.modalOverlay');
-    fireEvent.click(overlay!);
+    // Find the overlay by getting the first child of the container
+    // The overlay is the top-level div that contains the modal
+    const overlay = container.firstChild as HTMLElement;
+    fireEvent.click(overlay);
     
     expect(mockOnClose).toHaveBeenCalledTimes(1);
   });

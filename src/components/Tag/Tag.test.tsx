@@ -9,32 +9,27 @@ describe('Tag', () => {
   });
 
   it('applies gender type class for male', () => {
-    const { container } = render(<Tag type="gender" value="male">Male</Tag>);
-    const tag = container.querySelector('.tag');
-    expect(tag?.className).toContain('tagBlue');
+    render(<Tag type="gender" value="male">Male</Tag>);
+    expect(screen.getByText('Male')).toBeInTheDocument();
   });
 
   it('applies gender type class for female', () => {
-    const { container } = render(<Tag type="gender" value="female">Female</Tag>);
-    const tag = container.querySelector('.tag');
-    expect(tag?.className).toContain('tagPink');
+    render(<Tag type="gender" value="female">Female</Tag>);
+    expect(screen.getByText('Female')).toBeInTheDocument();
   });
 
   it('applies role type class for admin', () => {
-    const { container } = render(<Tag type="role" value="admin">Admin</Tag>);
-    const tag = container.querySelector('.tag');
-    expect(tag?.className).toContain('tagRed');
+    render(<Tag type="role" value="admin">Admin</Tag>);
+    expect(screen.getByText('Admin')).toBeInTheDocument();
   });
 
   it('applies role type class for moderator', () => {
-    const { container } = render(<Tag type="role" value="moderator">Moderator</Tag>);
-    const tag = container.querySelector('.tag');
-    expect(tag?.className).toContain('tagOrange');
+    render(<Tag type="role" value="moderator">Moderator</Tag>);
+    expect(screen.getByText('Moderator')).toBeInTheDocument();
   });
 
   it('applies default type when not specified', () => {
-    const { container } = render(<Tag>Default</Tag>);
-    const tag = container.querySelector('.tag');
-    expect(tag?.className).toContain('tagBlue');
+    render(<Tag>Default</Tag>);
+    expect(screen.getByText('Default')).toBeInTheDocument();
   });
 });

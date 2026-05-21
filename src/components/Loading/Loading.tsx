@@ -5,6 +5,7 @@ const Loading: React.FC = () => {
   return (
     <div className={styles.loading}>
       <div className={styles.loadingSpinner}></div>
+      <div className={styles.loadingText}>Loading...</div>
     </div>
   );
 };

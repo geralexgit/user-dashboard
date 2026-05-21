@@ -19,8 +19,8 @@ describe('Header', () => {
   });
 
   it('renders logo icon', () => {
-    const { container } = render(<Header totalUsers={100} />);
-    const logoIcon = container.querySelector('.headerLogo');
-    expect(logoIcon).toBeInTheDocument();
+    render(<Header totalUsers={100} />);
+    // Check that the logo icon emoji is present
+    expect(screen.getByText('👤')).toBeInTheDocument();
   });
 });
