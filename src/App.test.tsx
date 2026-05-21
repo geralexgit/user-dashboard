@@ -159,7 +159,7 @@ describe('App', () => {
     render(<App />);
     
     await waitFor(() => {
-      expect(screen.getByText('User Dashboard')).toBeInTheDocument();
+      expect(screen.getByText('Users Dashboard')).toBeInTheDocument();
     });
   });
 

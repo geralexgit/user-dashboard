@@ -5,7 +5,7 @@ import Header from './Header';
 describe('Header', () => {
   it('renders header with title', () => {
     render(<Header totalUsers={100} />);
-    expect(screen.getByText('User Dashboard')).toBeInTheDocument();
+    expect(screen.getByText('Users Dashboard')).toBeInTheDocument();
   });
 
   it('displays total users count', () => {
