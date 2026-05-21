@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test URL Parameters</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-case {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .url {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 3px;
+            font-family: monospace;
+            margin: 10px 0;
+        }
+        .description {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>React Router URL Parameters Test</h1>
+    <p>Test the following URLs in your browser to verify pagination and search parameters are stored in the URL:</p>
+    
+    <div class="test-case">
+        <h3>Test 1: Default URL (no parameters)</h3>
+        <div class="url">http://localhost:3001/</div>
+        <div class="description">Should show page 1 with 10 items per page, no search query.</div>
+    </div>
+    
+    <div class="test-case">
+        <h3>Test 2: Page 3 with 20 items per page</h3>
+        <div class="url">http://localhost:3001/?page=3&pageSize=20</div>
+        <div class="description">Should show page 3 with 20 items per page.</div>
+    </div>
+    
+    <div class="test-case">
+        <h3>Test 3: Search for "john"</h3>
+        <div class="url">http://localhost:3001/?search=john&page=1&pageSize=10</div>
+        <div class="description">Should search for users with "john" in their name.</div>
+    </div>
+    
+    <div class="test-case">
+        <h3>Test 4: Combined search and pagination</h3>
+        <div class="url">http://localhost:3001/?search=smith&page=2&pageSize=30</div>
+        <div class="description">Should show page 2 of search results for "smith" with 30 items per page.</div>
+    </div>
+    
+    <div class="test-case">
+        <h3>Test 5: Reset to default</h3>
+        <div class="url">http://localhost:3001/?page=1&pageSize=10</div>
+        <div class="description">Clicking "Reset" button should clear search parameter and reset to page 1.</div>
+    </div>
+    
+    <h2>How to test:</h2>
+    <ol>
+        <li>Open the application at <a href="http://localhost:3001/" target="_blank">http://localhost:3001/</a></li>
+        <li>Try changing page or page size - the URL should update automatically</li>
+        <li>Search for a user - the search term should appear in the URL</li>
+        <li>Copy a URL with parameters and paste it in a new tab - it should load with the same state</li>
+        <li>Use browser back/forward buttons - should navigate through previous states</li>
+    </ol>
+    
+    <h2>Expected Behavior:</h2>
+    <ul>
+        <li>URL parameters should update when you change page, page size, or search</li>
+        <li>Bookmarking a URL with parameters should restore the same view</li>
+        <li>Sharing URLs with colleagues should show them the exact same data view</li>
+        <li>Browser history should work correctly with back/forward buttons</li>
+    </ul>
+</body>
+</html>
