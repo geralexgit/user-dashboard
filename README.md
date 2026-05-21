@@ -17,8 +17,11 @@
 - 🧪 Интерактивный интерфейс для запуска тестов
 
 ## Скриншоты
+**Таблица пользователей**
 ![Таблица пользователей](screenshots/users-dashboard-1-UserTable.png)
+**Поиск**
 ![Поиск](screenshots/users-dashboard-2-Search.png)
+**Информация пользователя**
 ![Информация пользователя](screenshots/users-dashboard-3-UserDetails.png)
 
 ## Технологический стек
