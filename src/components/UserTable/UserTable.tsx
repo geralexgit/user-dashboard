@@ -9,6 +9,7 @@ interface TableColumn {
   align?: 'left' | 'center' | 'right';
   render?: (value: any, record: User) => React.ReactNode;
   mobilePriority?: number; // Lower number = higher priority for mobile view
+  tabletPriority?: number; // Lower number = higher priority for tablet view
 }
 
 interface UserTableProps {
@@ -39,7 +40,16 @@ const UserTable: React.FC<UserTableProps> = ({ users, columns }) => {
       .slice(0, 3); // Show top 3 prioritized columns on mobile
   };
 
+  // Get columns for tablet view (prioritized columns)
+  const getTabletColumns = () => {
+    return columns
+      .filter(col => col.tabletPriority !== undefined)
+      .sort((a, b) => (a.tabletPriority || 99) - (b.tabletPriority || 99))
+      .slice(0, 5); // Show top 5 prioritized columns on tablet
+  };
+
   const mobileColumns = getMobileColumns();
+  const tabletColumns = getTabletColumns();
 
   return (
     <>
@@ -66,6 +76,47 @@ const UserTable: React.FC<UserTableProps> = ({ users, columns }) => {
             {users.map((user) => (
               <tr key={user.id} className={styles.tableRow}>
                 {columns.map((column) => (
+                  <td
+                    key={`${user.id}-${column.key}`}
+                    className={styles.tableCell}
+                    style={{ textAlign: column.align || 'left' }}
+                  >
+                    {column.render
+                      ? column.render(getColumnValue(column, user), user)
+                      : typeof getColumnValue(column, user) === 'number'
+                      ? getColumnValue(column, user).toString()
+                      : getColumnValue(column, user)}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Tablet View */}
+      <div className={`${styles.tableContainer} ${styles.tabletView}`}>
+        <table className={styles.table}>
+          <thead className={styles.tableHeader}>
+            <tr>
+              {tabletColumns.map((column) => (
+                <th
+                  key={column.key}
+                  className={styles.tableHeaderCell}
+                  style={{
+                    width: column.width,
+                    textAlign: column.align || 'left',
+                  }}
+                >
+                  {column.title}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user.id} className={styles.tableRow}>
+                {tabletColumns.map((column) => (
                   <td
                     key={`${user.id}-${column.key}`}
                     className={styles.tableCell}

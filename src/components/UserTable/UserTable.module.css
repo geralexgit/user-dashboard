@@ -142,9 +142,15 @@
   border-top: 1px solid #f0f0f0;
 }
 
+/* Tablet View */
+.tabletView {
+  display: none;
+}
+
 /* Responsive Breakpoints */
-@media (max-width: 768px) {
-  .desktopView {
+@media (max-width: 576px) {
+  .desktopView,
+  .tabletView {
     display: none !important;
   }
   
@@ -153,11 +159,23 @@
   }
 }
 
-@media (min-width: 769px) {
+@media (min-width: 577px) and (max-width: 992px) {
+  .desktopView,
+  .mobileView {
+    display: none !important;
+  }
+  
+  .tabletView {
+    display: block !important;
+  }
+}
+
+@media (min-width: 993px) {
   .desktopView {
     display: block !important;
   }
   
+  .tabletView,
   .mobileView {
     display: none !important;
   }
