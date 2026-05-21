@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { User } from './types';
 import styles from './UserDetails.module.css';
 
@@ -15,6 +15,22 @@ interface DescriptionItem {
 }
 
 const UserDetails: React.FC<UserDetailsProps> = ({ user, visible, onClose }) => {
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && visible) {
+        onClose();
+      }
+    };
+
+    if (visible) {
+      document.addEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [visible, onClose]);
+
   if (!user || !visible) return null;
 
   const getTagClass = (role: string): string => {
