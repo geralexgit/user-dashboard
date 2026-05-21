@@ -373,7 +373,9 @@ MIT
 
 ## Автор
 
-Создано с использованием Vite, React, TypeScript и Ant Design
+**Герасимов Александр**
+- Telegram: [@geralex](https://t.me/geralex)
+- Email: [geralexndr@gmail.com](mailto:geralexndr@gmail.com)
 
 ## Полезные ссылки
 
