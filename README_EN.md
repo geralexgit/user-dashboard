@@ -1,6 +1,6 @@
 # User Dashboard
 
-A modern user management dashboard built with React, TypeScript, and Ant Design.
+A modern user management dashboard built with React, TypeScript, and CSS Modules.
 
 ## Features
 
@@ -8,7 +8,8 @@ A modern user management dashboard built with React, TypeScript, and Ant Design.
 - 🔍 Search users by name
 - 👀 View detailed user information in a modal
 - 📄 Pagination with customizable page sizes
-- 🎨 Clean and modern UI with Ant Design
+- 🔗 State persistence in URL parameters (React Router)
+- 🎨 Clean and modern UI with CSS Modules
 - 💪 Fully typed with TypeScript
 - 🔄 Real-time data fetching from DummyJSON API
 
@@ -16,7 +17,8 @@ A modern user management dashboard built with React, TypeScript, and Ant Design.
 
 - **React 18** - UI library
 - **TypeScript** - Type safety
-- **Ant Design 5** - UI component library
+- **CSS Modules** - Styles safety
+- **React Router DOM** - Routing and URL parameter management
 - **Axios** - HTTP client
 - **DummyJSON API** - Mock REST API
 
@@ -36,35 +38,50 @@ npm install
 
 2. Start the development server:
 ```bash
-npm start
+npm run dev
 ```
 
-The application will open at [http://localhost:3000](http://localhost:3000)
+The application will open at [http://localhost:3001](http://localhost:3001)
 
 ### Available Scripts
 
-- `npm start` - Runs the app in development mode
-- `npm build` - Builds the app for production
+- `npm run dev` - Runs the app in development mode
+- `npm run build` - Builds the app for production
+- `npm run preview` - Preview the built application
 - `npm test` - Runs the test suite
-- `npm eject` - Ejects from Create React App (one-way operation)
+- `npm run test:ui` - Runs tests with interactive UI interface
+- `npm run test:coverage` - Runs tests with code coverage report generation
 
 ## Project Structure
 
 ```
 user-dashboard/
 ├── public/
-│   └── index.html
+│   └── index.html          # HTML template
 ├── src/
 │   ├── api.ts              # API service functions
 │   ├── types.ts            # TypeScript type definitions
 │   ├── App.tsx             # Main application component
 │   ├── App.css             # Application styles
-│   ├── UserDetails.tsx     # User details modal component
 │   ├── index.tsx           # Application entry point
-│   └── index.css           # Global styles
+│   ├── index.css           # Global styles
+│   └── components/         # Application components
+│       ├── Button/         # Button component
+│       ├── Header/         # Header component
+│       ├── Loading/        # Loading indicator
+│       ├── Pagination/     # Pagination component
+│       ├── SearchBar/      # Search bar component
+│       ├── Tag/            # Tag component
+│       ├── UserDetails/    # User details modal
+│       └── UserTable/      # User table component
 ├── package.json
+├── package-lock.json
 ├── tsconfig.json
-└── README.md
+├── tsconfig.node.json
+├── vite.config.ts          # Vite configuration (including Vitest)
+├── README.md               # Russian documentation
+├── README_EN.md            # English documentation
+└── URL_PARAMETERS_IMPLEMENTATION.md  # URL parameters implementation documentation
 ```
 
 ## Features in Detail
@@ -95,6 +112,21 @@ user-dashboard/
 - Shows total user count
 - Smooth navigation between pages
 
+### URL Parameter State Management
+- **React Router URL parameters** - Application state stored in URL
+- **Pagination parameters** - `?page=` (current page) and `?pageSize=` (page size)
+- **Search parameter** - `?search=` (search query)
+- **Capabilities**:
+  - Bookmarking specific data views
+  - Sharing URLs with preserved state
+  - Using browser back/forward buttons for navigation
+  - Page refresh without losing current state
+- **Example URLs**:
+  - Default: `http://localhost:3001/`
+  - Page 3 with 20 items: `http://localhost:3001/?page=3&pageSize=20`
+  - Search for "john": `http://localhost:3001/?search=john&page=1&pageSize=10`
+  - Combined: `http://localhost:3001/?search=smith&page=2&pageSize=30`
+
 ## API Endpoints Used
 
 - `GET /users` - Fetch all users with pagination
@@ -116,4 +148,4 @@ MIT
 
 ## Author
 
-Created with Create React App, TypeScript, and Ant Design
+Created with Create React App, TypeScript, and CSS Modules

@@ -10,7 +10,7 @@ const Header: React.FC<HeaderProps> = ({ totalUsers }) => {
     <header className={styles.header}>
       <div className={styles.headerLogo}>
         <div className={styles.logoIcon}>👤</div>
-        <h1 className={styles.title}>User Dashboard</h1>
+        <h1 className={styles.title}>Users Dashboard</h1>
       </div>
       <span className={styles.totalTag}>Total Users: {totalUsers}</span>
     </header>
