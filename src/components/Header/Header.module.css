@@ -1,0 +1,36 @@
+.header {
+  background: #fff;
+  padding: 0 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.headerLogo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logoIcon {
+  font-size: 28px;
+  color: #1890ff;
+  font-weight: bold;
+}
+
+.title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.totalTag {
+  padding: 4px 12px;
+  background: #e6f4ff;
+  color: #1677ff;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}

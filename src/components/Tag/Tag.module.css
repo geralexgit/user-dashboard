@@ -1,0 +1,28 @@
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.tagBlue {
+  background: #e6f4ff;
+  color: #1677ff;
+}
+
+.tagPink {
+  background: #fff0f6;
+  color: #eb2f96;
+}
+
+.tagRed {
+  background: #fff1f0;
+  color: #f5222d;
+}
+
+.tagOrange {
+  background: #fff7e6;
+  color: #fa8c16;
+}
