@@ -148,4 +148,6 @@ MIT
 
 ## Author
 
-Created with Create React App, TypeScript, and CSS Modules
+**Aleksandr Gerasimov**
+- Telegram: [@geralex](https://t.me/geralex)
+- Email: [geralexndr@gmail.com](mailto:geralexndr@gmail.com)
