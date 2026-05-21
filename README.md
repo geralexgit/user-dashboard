@@ -15,6 +15,11 @@
 - 📈 Отчеты о покрытии кода тестами
 - 🧪 Интерактивный интерфейс для запуска тестов
 
+## Скриншоты
+![Таблица пользователей](screenshots/users-dashboard-1-UserTable.png)
+![Поиск](screenshots/users-dashboard-2-Search.png)
+![Информация пользователя](screenshots/users-dashboard-3-UserDetails.png)
+
 ## Технологический стек
 
 - **React 18** - Библиотека для построения пользовательского интерфейса
