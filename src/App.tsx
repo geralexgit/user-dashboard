@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ChangeEvent, KeyboardEvent } from 'react';
 import { userApi } from './api';
 import { User } from './types';
-import UserDetails from './UserDetails';
+import UserDetails from './components/UserDetailes/UserDetails';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import UserTable, { getColumns } from './components/UserTable';
