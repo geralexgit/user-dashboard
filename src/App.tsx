@@ -31,44 +31,83 @@ const App: React.FC = () => {
   // Function to update URL parameters
   const updateUrlParams = useCallback((updates: { page?: number; pageSize?: number; search?: string }) => {
     const newParams = new URLSearchParams(searchParams);
+    let hasChanges = false;
     
     if (updates.page !== undefined) {
-      newParams.set('page', updates.page.toString());
+      const currentPage = newParams.get('page');
+      const newPage = updates.page.toString();
+      if (currentPage !== newPage) {
+        newParams.set('page', newPage);
+        hasChanges = true;
+      }
     }
     if (updates.pageSize !== undefined) {
-      newParams.set('pageSize', updates.pageSize.toString());
+      const currentPageSize = newParams.get('pageSize');
+      const newPageSize = updates.pageSize.toString();
+      if (currentPageSize !== newPageSize) {
+        newParams.set('pageSize', newPageSize);
+        hasChanges = true;
+      }
     }
     if (updates.search !== undefined) {
+      const currentSearch = newParams.get('search');
       if (updates.search) {
-        newParams.set('search', updates.search);
+        if (currentSearch !== updates.search) {
+          newParams.set('search', updates.search);
+          hasChanges = true;
+        }
       } else {
-        newParams.delete('search');
+        if (currentSearch !== null) {
+          newParams.delete('search');
+          hasChanges = true;
+        }
       }
     }
     
-    setSearchParams(newParams, { replace: true });
+    if (hasChanges) {
+      setSearchParams(newParams, { replace: true });
+    }
   }, [searchParams, setSearchParams]);
 
+  // Effect to handle URL parameter changes
   useEffect(() => {
-    // Check if there's a search query in the URL on initial load
-    if (urlSearch) {
-      // If there's a search query, perform the search
-      handleSearch();
-    } else {
-      // Otherwise, fetch users normally
-      fetchUsers(currentPage, pageSize);
+    // This runs whenever URL parameters change
+    
+    // If URL has a search parameter and it's different from current search query
+    if (urlSearch !== null && urlSearch !== searchQuery) {
+      // Update search query state
+      setSearchQuery(urlSearch);
+      // handleSearch will be called by the effect below
     }
-  }, []); // Empty dependency array means this runs only on mount
+    
+    // If URL doesn't have search parameter but we have a search query
+    if (urlSearch === null && searchQuery) {
+      // Clear search query
+      setSearchQuery('');
+      // fetchUsers will be called by the effect below
+    }
+    
+    // Update page from URL if different
+    const pageFromUrl = urlPage ? parseInt(urlPage) : 1;
+    if (pageFromUrl !== currentPage) {
+      setCurrentPage(pageFromUrl);
+    }
+    
+    // Update page size from URL if different
+    const pageSizeFromUrl = urlPageSize ? parseInt(urlPageSize) : 10;
+    if (pageSizeFromUrl !== pageSize) {
+      setPageSize(pageSizeFromUrl);
+    }
+  }, [urlSearch, urlPage, urlPageSize]);
 
+  // Effect to fetch data based on current state
   useEffect(() => {
-    // This effect handles pagination changes
-    // If there's a search query, we need to re-search when page changes
     if (searchQuery.trim()) {
       handleSearch();
     } else {
       fetchUsers(currentPage, pageSize);
     }
-  }, [currentPage, pageSize]);
+  }, [searchQuery, currentPage, pageSize]);
 
   const fetchUsers = async (page: number, limit: number) => {
     setLoading(true);
