@@ -1,26 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import {
-  Layout,
-  Table,
-  Input,
-  Button,
-  Space,
-  Avatar,
-  Tag,
-  Typography,
-  message,
-  Card,
-  Spin,
-} from 'antd';
-// Icons removed - using text alternatives instead
-import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
+import React, { useState, useEffect, ChangeEvent, KeyboardEvent } from 'react';
 import { userApi } from './api';
 import { User } from './types';
 import UserDetails from './UserDetails';
-import './App.css';
+import styles from './App.module.css';
 
-const { Header, Content } = Layout;
-const { Title } = Typography;
+interface TableColumn {
+  key: string;
+  title: string;
+  width?: number;
+  align?: 'left' | 'center' | 'right';
+  render?: (value: any, record: User) => React.ReactNode;
+}
 
 const App: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -44,8 +34,8 @@ const App: React.FC = () => {
       setUsers(data.users);
       setTotal(data.total);
     } catch (error) {
-      message.error('Failed to fetch users');
       console.error('Error fetching users:', error);
+      alert('Failed to fetch users');
     } finally {
       setLoading(false);
     }
@@ -65,8 +55,8 @@ const App: React.FC = () => {
       setTotal(data.total);
       setCurrentPage(1);
     } catch (error) {
-      message.error('Failed to search users');
       console.error('Error searching users:', error);
+      alert('Failed to search users');
     } finally {
       setLoading(false);
     }
@@ -78,9 +68,14 @@ const App: React.FC = () => {
     fetchUsers(1, pageSize);
   };
 
-  const handleTableChange = (pagination: TablePaginationConfig) => {
-    setCurrentPage(pagination.current || 1);
-    setPageSize(pagination.pageSize || 10);
+  const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSearchKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
   };
 
   const showUserDetails = (user: User) => {
@@ -88,174 +83,285 @@ const App: React.FC = () => {
     setDetailsVisible(true);
   };
 
-  const columns: ColumnsType<User> = [
+  const getTagClass = (value: string, type: 'gender' | 'role'): string => {
+    if (type === 'gender') {
+      return value === 'male' ? styles.tagBlue : styles.tagPink;
+    }
+    if (type === 'role') {
+      if (value === 'admin') return styles.tagRed;
+      if (value === 'moderator') return styles.tagOrange;
+      return styles.tagBlue;
+    }
+    return styles.tagBlue;
+  };
+
+  const columns: TableColumn[] = [
     {
-      title: 'Avatar',
-      dataIndex: 'image',
       key: 'image',
+      title: 'Avatar',
       width: 80,
       render: (image: string) => (
-        <Avatar size={48} src={image} />
+        <img src={image} alt="avatar" className={styles.avatar} />
       ),
     },
     {
-      title: 'Name',
       key: 'name',
+      title: 'Name',
       width: 200,
       render: (_, record: User) => (
-        <div>
-          <div style={{ fontWeight: 600 }}>
+        <div className={styles.nameContainer}>
+          <div className={styles.name}>
             {record.firstName} {record.lastName}
           </div>
-          <div style={{ fontSize: '12px', color: '#666' }}>@{record.username}</div>
+          <div className={styles.username}>@{record.username}</div>
         </div>
       ),
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
       key: 'email',
+      title: 'Email',
       width: 250,
-      ellipsis: true,
+      render: (email: string) => (
+        <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          {email}
+        </div>
+      ),
     },
     {
-      title: 'Age',
-      dataIndex: 'age',
       key: 'age',
+      title: 'Age',
       width: 80,
       align: 'center',
+      render: (age: number) => age.toString(),
     },
     {
-      title: 'Gender',
-      dataIndex: 'gender',
       key: 'gender',
+      title: 'Gender',
       width: 100,
       align: 'center',
       render: (gender: string) => (
-        <Tag color={gender === 'male' ? 'blue' : 'pink'}>{gender.toUpperCase()}</Tag>
+        <span className={`${styles.tag} ${getTagClass(gender, 'gender')}`}>
+          {gender.toUpperCase()}
+        </span>
       ),
     },
     {
-      title: 'Role',
-      dataIndex: 'role',
       key: 'role',
+      title: 'Role',
       width: 120,
       align: 'center',
       render: (role: string) => (
-        <Tag
-          color={
-            role === 'admin' ? 'red' : role === 'moderator' ? 'orange' : 'blue'
-          }
-        >
+        <span className={`${styles.tag} ${getTagClass(role, 'role')}`}>
           {role.toUpperCase()}
-        </Tag>
+        </span>
       ),
     },
     {
-      title: 'Company',
-      dataIndex: ['company', 'name'],
       key: 'company',
+      title: 'Company',
       width: 200,
-      ellipsis: true,
+      render: (_, record: User) => (
+        <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          {record.company.name}
+        </div>
+      ),
     },
     {
-      title: 'City',
-      dataIndex: ['address', 'city'],
       key: 'city',
+      title: 'City',
       width: 150,
+      render: (_, record: User) => record.address.city,
     },
     {
-      title: 'Actions',
       key: 'actions',
+      title: 'Actions',
       width: 120,
-      fixed: 'right',
       align: 'center',
       render: (_, record: User) => (
-        <Button
-          type="primary"
+        <button
+          className={`${styles.button} ${styles.primaryButton}`}
           onClick={() => showUserDetails(record)}
         >
           View
-        </Button>
+        </button>
       ),
     },
   ];
 
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+
+  const handlePageSizeChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const newSize = parseInt(e.target.value);
+    setPageSize(newSize);
+    setCurrentPage(1);
+  };
+
+  const totalPages = Math.ceil(total / pageSize);
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = Math.min(startIndex + pageSize, total);
+
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <Header
-        style={{
-          background: '#fff',
-          padding: '0 24px',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <div style={{ fontSize: '28px', color: '#1890ff', fontWeight: 'bold' }}>👤</div>
-          <Title level={3} style={{ margin: 0 }}>
-            User Dashboard
-          </Title>
+    <div className={styles.app}>
+      <header className={styles.header}>
+        <div className={styles.headerLogo}>
+          <div className={styles.logoIcon}>👤</div>
+          <h1 className={styles.title}>User Dashboard</h1>
         </div>
-        <Tag color="blue">Total Users: {total}</Tag>
-      </Header>
+        <span className={styles.totalTag}>Total Users: {total}</span>
+      </header>
 
-      <Content style={{ padding: '24px', background: '#f0f2f5' }}>
-        <Card>
-          <Space direction="vertical" style={{ width: '100%' }} size="large">
-            <div style={{ display: 'flex', gap: '12px' }}>
-              <Input
-                placeholder="Search users by name..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onPressEnter={handleSearch}
-                style={{ flex: 1 }}
-                size="large"
-              />
-              <Button
-                type="primary"
-                onClick={handleSearch}
-                size="large"
-              >
-                Search
-              </Button>
-              <Button
-                onClick={handleRefresh}
-                size="large"
-              >
-                Reset
-              </Button>
+      <main className={styles.content}>
+        <div className={styles.card}>
+          <div className={styles.searchContainer}>
+            <input
+              type="text"
+              placeholder="Search users by name..."
+              value={searchQuery}
+              onChange={handleSearchInputChange}
+              onKeyPress={handleSearchKeyPress}
+              className={styles.searchInput}
+            />
+            <button
+              className={`${styles.button} ${styles.primaryButton}`}
+              onClick={handleSearch}
+            >
+              Search
+            </button>
+            <button
+              className={`${styles.button} ${styles.defaultButton}`}
+              onClick={handleRefresh}
+            >
+              Reset
+            </button>
+          </div>
+
+          {loading ? (
+            <div className={styles.loading}>
+              <div className={styles.loadingSpinner}></div>
             </div>
+          ) : (
+            <>
+              <div className={styles.tableContainer}>
+                <table className={styles.table}>
+                  <thead className={styles.tableHeader}>
+                    <tr>
+                      {columns.map((column) => (
+                        <th
+                          key={column.key}
+                          className={styles.tableHeaderCell}
+                          style={{
+                            width: column.width,
+                            textAlign: column.align || 'left',
+                          }}
+                        >
+                          {column.title}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {users.map((user) => (
+                      <tr key={user.id} className={styles.tableRow}>
+                        {columns.map((column) => (
+                          <td
+                            key={`${user.id}-${column.key}`}
+                            className={styles.tableCell}
+                            style={{ textAlign: column.align || 'left' }}
+                          >
+                            {column.render
+                              ? column.render(
+                                  column.key === 'image'
+                                    ? user.image
+                                    : column.key === 'email'
+                                    ? user.email
+                                    : column.key === 'age'
+                                    ? user.age
+                                    : column.key === 'gender'
+                                    ? user.gender
+                                    : column.key === 'role'
+                                    ? user.role
+                                    : column.key === 'company'
+                                    ? user.company.name
+                                    : column.key === 'city'
+                                    ? user.address.city
+                                    : column.key === 'hair'
+                                    ? `${user.hair.color} - ${user.hair.type}`
+                                    : user[column.key as keyof User] as string,
+                                  user
+                                )
+                              : column.key === 'image'
+                              ? user.image
+                              : column.key === 'email'
+                              ? user.email
+                              : column.key === 'age'
+                              ? user.age.toString()
+                              : column.key === 'gender'
+                              ? user.gender
+                              : column.key === 'role'
+                              ? user.role
+                              : column.key === 'company'
+                              ? user.company.name
+                              : column.key === 'city'
+                              ? user.address.city
+                              : column.key === 'hair'
+                              ? `${user.hair.color} - ${user.hair.type}`
+                              : user[column.key as keyof User] as string}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
 
-            <Spin spinning={loading}>
-              <Table
-                columns={columns}
-                dataSource={users}
-                rowKey="id"
-                pagination={{
-                  current: currentPage,
-                  pageSize: pageSize,
-                  total: total,
-                  showSizeChanger: true,
-                  showTotal: (total) => `Total ${total} users`,
-                  pageSizeOptions: ['10', '20', '30', '50'],
-                }}
-                onChange={handleTableChange}
-                scroll={{ x: 1300 }}
-              />
-            </Spin>
-          </Space>
-        </Card>
-      </Content>
+              <div className={styles.pagination}>
+                <button
+                  className={styles.paginationButton}
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                >
+                  Previous
+                </button>
+                <span className={styles.paginationInfo}>
+                  Page {currentPage} of {totalPages}
+                </span>
+                <button
+                  className={styles.paginationButton}
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                >
+                  Next
+                </button>
+                <select
+                  value={pageSize}
+                  onChange={handlePageSizeChange}
+                  className={styles.paginationButton}
+                  style={{ padding: '8px' }}
+                >
+                  <option value="10">10 per page</option>
+                  <option value="20">20 per page</option>
+                  <option value="30">30 per page</option>
+                  <option value="50">50 per page</option>
+                </select>
+                <span className={styles.paginationInfo}>
+                  Showing {startIndex + 1}-{endIndex} of {total} users
+                </span>
+              </div>
+            </>
+          )}
+        </div>
+      </main>
 
-      <UserDetails
-        user={selectedUser}
-        visible={detailsVisible}
-        onClose={() => setDetailsVisible(false)}
-      />
-    </Layout>
+      {detailsVisible && (
+        <UserDetails
+          user={selectedUser}
+          visible={detailsVisible}
+          onClose={() => setDetailsVisible(false)}
+        />
+      )}
+    </div>
   );
 };
 
