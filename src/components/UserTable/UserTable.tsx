@@ -15,9 +15,10 @@ interface TableColumn {
 interface UserTableProps {
   users: User[];
   columns: TableColumn[];
+  onRowClick?: (user: User) => void;
 }
 
-const UserTable: React.FC<UserTableProps> = ({ users, columns }) => {
+const UserTable: React.FC<UserTableProps> = ({ users, columns, onRowClick }) => {
   // Get value for a column key from user
   const getColumnValue = (column: TableColumn, user: User) => {
     if (column.key === 'image') return user.image;
@@ -74,7 +75,11 @@ const UserTable: React.FC<UserTableProps> = ({ users, columns }) => {
           </thead>
           <tbody>
             {users.map((user) => (
-              <tr key={user.id} className={styles.tableRow}>
+              <tr 
+                key={user.id} 
+                className={`${styles.tableRow} ${onRowClick ? styles.clickableRow : ''}`}
+                onClick={() => onRowClick && onRowClick(user)}
+              >
                 {columns.map((column) => (
                   <td
                     key={`${user.id}-${column.key}`}
@@ -115,7 +120,11 @@ const UserTable: React.FC<UserTableProps> = ({ users, columns }) => {
           </thead>
           <tbody>
             {users.map((user) => (
-              <tr key={user.id} className={styles.tableRow}>
+              <tr 
+                key={user.id} 
+                className={`${styles.tableRow} ${onRowClick ? styles.clickableRow : ''}`}
+                onClick={() => onRowClick && onRowClick(user)}
+              >
                 {tabletColumns.map((column) => (
                   <td
                     key={`${user.id}-${column.key}`}
@@ -138,7 +147,11 @@ const UserTable: React.FC<UserTableProps> = ({ users, columns }) => {
       {/* Mobile View */}
       <div className={`${styles.mobileContainer} ${styles.mobileView}`}>
         {users.map((user) => (
-          <div key={user.id} className={styles.mobileCard}>
+          <div 
+            key={user.id} 
+            className={`${styles.mobileCard} ${onRowClick ? styles.clickableCard : ''}`}
+            onClick={() => onRowClick && onRowClick(user)}
+          >
             {/* Card Header with Avatar and Name */}
             <div className={styles.mobileCardHeader}>
               {columns.find(col => col.key === 'image')?.render ? (

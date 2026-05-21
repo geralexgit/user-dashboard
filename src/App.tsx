@@ -114,6 +114,7 @@ const App: React.FC = () => {
               <UserTable
                 users={users}
                 columns={columns}
+                onRowClick={showUserDetails}
               />
 
               <Pagination
