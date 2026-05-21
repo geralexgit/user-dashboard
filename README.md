@@ -46,7 +46,7 @@ npm install
 npm run dev
 ```
 
-Приложение откроется по адресу [http://localhost:5173](http://localhost:5173)
+Приложение откроется по адресу [http://localhost:3000](http://localhost:3000)
 
 ### Доступные скрипты
 
