@@ -1,119 +1,233 @@
-# User Dashboard
+# User Dashboard (Панель управления пользователями)
 
-A modern user management dashboard built with React, TypeScript, and Ant Design.
+Современная панель управления пользователями, построенная с использованием React, TypeScript и Ant Design.
 
-## Features
+## Возможности
 
-- 📊 Display users in a responsive table
-- 🔍 Search users by name
-- 👀 View detailed user information in a modal
-- 📄 Pagination with customizable page sizes
-- 🎨 Clean and modern UI with Ant Design
-- 💪 Fully typed with TypeScript
-- 🔄 Real-time data fetching from DummyJSON API
+- 📊 Отображение пользователей в адаптивной таблице
+- 🔍 Поиск пользователей по имени
+- 👀 Просмотр детальной информации о пользователе в модальном окне
+- 📄 Пагинация с настраиваемым размером страницы
+- 🎨 Чистый и современный интерфейс с использованием Ant Design
+- 💪 Полная типизация с TypeScript
+- 🔄 Загрузка данных в реальном времени из DummyJSON API
 
-## Technology Stack
+## Технологический стек
 
-- **React 18** - UI library
-- **TypeScript** - Type safety
-- **Ant Design 5** - UI component library
-- **Axios** - HTTP client
-- **DummyJSON API** - Mock REST API
+- **React 18** - Библиотека для построения пользовательского интерфейса
+- **TypeScript** - Типизация для безопасности кода
+- **Ant Design 5** - Библиотека UI компонентов
+- **Axios** - HTTP клиент
+- **DummyJSON API** - Mock REST API для тестирования
+- **Vite** - Сборщик проекта
 
-## Getting Started
+## Начало работы
 
-### Prerequisites
+### Предварительные требования
 
-- Node.js (v16 or higher)
-- npm or yarn
+- Node.js (версия 16 или выше)
+- npm или yarn
 
-### Installation
+### Установка
 
-1. Install dependencies:
+1. Клонируйте репозиторий:
+```bash
+git clone <repository-url>
+cd user-dashboard
+```
+
+2. Установите зависимости:
 ```bash
 npm install
 ```
 
-2. Start the development server:
+3. Запустите сервер разработки:
 ```bash
-npm start
+npm run dev
 ```
 
-The application will open at [http://localhost:3000](http://localhost:3000)
+Приложение откроется по адресу [http://localhost:5173](http://localhost:5173)
 
-### Available Scripts
+### Доступные скрипты
 
-- `npm start` - Runs the app in development mode
-- `npm build` - Builds the app for production
-- `npm test` - Runs the test suite
-- `npm eject` - Ejects from Create React App (one-way operation)
+- `npm run dev` - Запускает приложение в режиме разработки
+- `npm run build` - Собирает приложение для продакшена
+- `npm run preview` - Предпросмотр собранного приложения
+- `npm test` - Запускает тесты (в разработке)
 
-## Project Structure
+## Структура проекта
 
 ```
 user-dashboard/
 ├── public/
-│   └── index.html
+│   └── index.html          # HTML шаблон
 ├── src/
-│   ├── api.ts              # API service functions
-│   ├── types.ts            # TypeScript type definitions
-│   ├── App.tsx             # Main application component
-│   ├── App.css             # Application styles
-│   ├── UserDetails.tsx     # User details modal component
-│   ├── index.tsx           # Application entry point
-│   └── index.css           # Global styles
+│   ├── api.ts              # Функции API сервиса
+│   ├── types.ts            # Определения типов TypeScript
+│   ├── App.tsx             # Главный компонент приложения
+│   ├── App.css             # Стили приложения
+│   ├── App.module.css      # CSS модули
+│   ├── index.tsx           # Точка входа приложения
+│   ├── index.css           # Глобальные стили
+│   ├── css-modules.d.ts    # Объявления для CSS модулей
+│   └── components/         # Компоненты приложения
+│       ├── Button/         # Кнопка
+│       ├── Header/         # Заголовок
+│       ├── Loading/        # Индикатор загрузки
+│       ├── Pagination/     # Пагинация
+│       ├── SearchBar/      # Поисковая строка
+│       ├── Tag/            # Теги
+│       ├── UserDetails/    # Детали пользователя
+│       └── UserTable/      # Таблица пользователей
 ├── package.json
 ├── tsconfig.json
-└── README.md
+├── vite.config.ts          # Конфигурация Vite
+├── README.md               # Английская документация
+└── README_RU.md            # Русская документация
 ```
 
-## Features in Detail
+## Возможности подробно
 
-### User Table
-- Displays key user information in an organized table
-- Sortable and filterable columns
-- Responsive design that adapts to screen size
-- Avatar images for visual identification
-- Role-based color coding
+### Таблица пользователей
+- Отображает ключевую информацию о пользователях в организованной таблице
+- Сортируемые и фильтруемые колонки
+- Адаптивный дизайн под разные размеры экрана
+- Аватары пользователей для визуальной идентификации
+- Цветовое кодирование по ролям
 
-### Search Functionality
-- Real-time search through the DummyJSON API
-- Search by user name
-- Clear search results with reset button
+### Функциональность поиска
+- Поиск в реальном времени через DummyJSON API
+- Поиск по имени пользователя
+- Очистка результатов поиска кнопкой сброса
 
-### User Details Modal
-- Comprehensive view of all user information
-- Organized into logical sections:
-  - Personal Information
-  - Address Details
-  - Company Information
-  - Banking Information
-  - Additional Data (University, IP, Crypto, etc.)
+### Модальное окно деталей пользователя
+- Комплексный просмотр всей информации о пользователе
+- Организовано в логические секции:
+  - Личная информация
+  - Адресные данные
+  - Информация о компании
+  - Банковская информация
+  - Дополнительные данные (университет, IP, криптовалюта и т.д.)
 
-### Pagination
-- Configurable page sizes (10, 20, 30, 50 users per page)
-- Shows total user count
-- Smooth navigation between pages
+### Пагинация
+- Настраиваемый размер страницы (10, 20, 30, 50 пользователей на странице)
+- Показывает общее количество пользователей
+- Плавная навигация между страницами
 
-## API Endpoints Used
+## Используемые API эндпоинты
 
-- `GET /users` - Fetch all users with pagination
-- `GET /users/search?q={query}` - Search users
-- `GET /users/{id}` - Get single user details
+- `GET /users` - Получение всех пользователей с пагинацией
+- `GET /users/search?q={query}` - Поиск пользователей
+- `GET /users/{id}` - Получение деталей одного пользователя
 
-## Customization
+## Развертывание (Deployment)
 
-You can customize the application by:
+### Сборка для продакшена
 
-1. **Modifying table columns** - Edit the `columns` array in `App.tsx`
-2. **Changing page sizes** - Update `pageSizeOptions` in the Table component
-3. **Styling** - Modify `App.css` and `index.css`
-4. **Adding filters** - Extend the API service in `api.ts`
+1. Соберите приложение:
+```bash
+npm run build
+```
 
-## License
+2. Собранные файлы будут находиться в папке `dist/`
+
+### Развертывание на различных платформах
+
+#### Netlify
+1. Установите Netlify CLI:
+```bash
+npm install -g netlify-cli
+```
+
+2. Разверните приложение:
+```bash
+netlify deploy --prod --dir=dist
+```
+
+#### Vercel
+1. Установите Vercel CLI:
+```bash
+npm install -g vercel
+```
+
+2. Разверните приложение:
+```bash
+vercel --prod
+```
+
+#### GitHub Pages
+1. Установите пакет gh-pages:
+```bash
+npm install --save-dev gh-pages
+```
+
+2. Добавьте в package.json:
+```json
+"homepage": "https://<username>.github.io/<repository-name>",
+"scripts": {
+  "predeploy": "npm run build",
+  "deploy": "gh-pages -d dist"
+}
+```
+
+3. Разверните:
+```bash
+npm run deploy
+```
+
+#### Docker
+1. Создайте Dockerfile:
+```dockerfile
+FROM node:18-alpine as build
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+FROM nginx:alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+2. Соберите и запустите контейнер:
+```bash
+docker build -t user-dashboard .
+docker run -p 80:80 user-dashboard
+```
+
+### Настройка окружения
+
+Создайте файл `.env` в корне проекта для настройки переменных окружения:
+
+```env
+VITE_API_BASE_URL=https://dummyjson.com
+VITE_API_TIMEOUT=5000
+```
+
+## Кастомизация
+
+Вы можете кастомизировать приложение:
+
+1. **Изменение колонок таблицы** - Отредактируйте массив `columns` в `App.tsx`
+2. **Изменение размеров страницы** - Обновите `pageSizeOptions` в компоненте Table
+3. **Стилизация** - Измените `App.css` и `index.css`
+4. **Добавление фильтров** - Расширьте API сервис в `api.ts`
+5. **Изменение темы** - Настройте тему Ant Design в `App.tsx`
+
+## Лицензия
 
 MIT
 
-## Author
+## Автор
 
-Created with Create React App, TypeScript, and Ant Design
+Создано с использованием Vite, React, TypeScript и Ant Design
+
+## Полезные ссылки
+
+- [React документация](https://react.dev/)
+- [TypeScript документация](https://www.typescriptlang.org/)
+- [Ant Design документация](https://ant.design/)
+- [Vite документация](https://vitejs.dev/)
+- [DummyJSON API](https://dummyjson.com/docs)
