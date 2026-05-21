@@ -57,3 +57,108 @@
   font-size: 12px;
   color: #666;
 }
+
+/* Mobile Styles */
+.mobileContainer {
+  display: none;
+}
+
+.mobileCard {
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03), 0 2px 4px rgba(0, 0, 0, 0.03);
+  border: 1px solid #f0f0f0;
+}
+
+.mobileCardHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.mobileAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 12px;
+}
+
+.mobileNameContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.mobileName {
+  font-weight: 600;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.88);
+}
+
+.mobileUsername {
+  font-size: 12px;
+  color: #666;
+  margin-top: 2px;
+}
+
+.mobileCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.mobileField {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mobileFieldLabel {
+  font-weight: 500;
+  color: #666;
+  font-size: 14px;
+}
+
+.mobileFieldValue {
+  color: rgba(0, 0, 0, 0.88);
+  font-size: 14px;
+  text-align: right;
+  max-width: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mobileCardFooter {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 768px) {
+  .desktopView {
+    display: none !important;
+  }
+  
+  .mobileView {
+    display: block !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .desktopView {
+    display: block !important;
+  }
+  
+  .mobileView {
+    display: none !important;
+  }
+}
